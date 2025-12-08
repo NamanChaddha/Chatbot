@@ -3,8 +3,8 @@ import io
 import json
 import re
 
-database = "..\..\Datasets\comments\RC_2024-07.zst"
-Filtered = "..\..\Datasets\Filtered\RC_2024-07.jsonl"
+database = "..\Datasets\comments\RC_2024-07.zst"
+Filtered = "..\Datasets\Filtered\RC_2024-07.jsonl"
 
 KEEP_KEYS = {'id', 'parent_id', 'link_id', 'subreddit', 'body', 'score'}
 
