@@ -4,8 +4,8 @@ import json
 import re
 from langdetect import detect, LangDetectException
 
-database = "..\Datasets\comments\RC_2024-07.zst"
-Filtered = "..\Datasets\Filtered\RC_2024-07.jsonl"
+database = r"..\Datasets\comments\RC_2024-07.zst"
+Filtered = r"..\Datasets\Filtered\RC_2024-07.jsonl"
 
 KEEP_KEYS = {'id', 'parent_id', 'link_id', 'subreddit', 'body', 'score'}
 
