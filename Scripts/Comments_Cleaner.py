@@ -2,6 +2,7 @@ import zstandard as zstd
 import io
 import json
 import re
+from langdetect import detect, LangDetectException
 
 database = "..\Datasets\comments\RC_2024-07.zst"
 Filtered = "..\Datasets\Filtered\RC_2024-07.jsonl"
@@ -25,6 +26,15 @@ CommonBotsList = {
     "wandering-dwarf-miner",
     "CommunityModBot"
 }
+
+def isenglish(text):
+    try:
+        if text.isascii():
+            return True
+        return detect(text) == 'en'
+    except:
+        return False
+
 def squeeze_repeats(text):
     return re.sub(r'(.)\1{3,}', r'\1\1\1', text)
 
@@ -42,6 +52,8 @@ def verify_usability(obj):
         return False
     if 'http' in body or 'www.' in body:
         return False
+    if not isenglish(body):
+        return False
     return True
 
 print("🚀 Starting Extraction...")
@@ -57,7 +69,7 @@ with open(database, 'rb') as db:
                 try:
                     obj = json.loads(line)
                     process+=1
-                    if process%1000 == 0:
+                    if process%1000000 == 0:
                         print(f"process {process} rows")
                     if not verify_usability(obj):
                         continue
@@ -71,9 +83,9 @@ with open(database, 'rb') as db:
                     minimal_obj['body'] = body.strip()
                     obj_batch.append(json.dumps(minimal_obj))
                     count += 1
-                    if count % 10000 == 0:
+                    if count % 100000 == 0:
                         f.write('\n'.join(obj_batch) + '\n')
-                        print(f"Added {count} valid rows...", end='\r')
+                        print(f"Added {count} valid rows...")
                         obj_batch.clear()
                 except json.JSONDecodeError as e:
                     print(e)
