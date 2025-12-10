@@ -10,11 +10,12 @@ BATCH_SIZE = 100_000
 
 def find_jsonl_files(base_dir):
     jsonl_files = []
-    for root, _, files in os.walk(base_dir):
-        for file in files:
+    if os.path.exists(base_dir):
+        for file in os.listdir(base_dir):
             if file.endswith(VALID_EXTENSIONS):
-                jsonl_files.append(os.path.join(root, file))
+                jsonl_files.append(os.path.join(base_dir, file))
     return jsonl_files
+
 def load_all_rows(files):
     rows = []
     for file_path in files:
@@ -38,15 +39,16 @@ def write_shuffled(rows, output_path):
     with open(output_path, "w", encoding="utf-8") as f:
         for row in rows:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
 print(" Starting Dataset Merger")
-#samarth is gay
 files = find_jsonl_files(DATASETS_DIR)
+
 if not files:
   print(" No JSONL files found!")
-  return
-print(f"Found {len(files)} dataset files")
-all_rows = load_all_rows(files)
-print(f" Total rows loaded: {len(all_rows)}")
-write_shuffled(all_rows, OUTPUT_FILE)
-print(" Dataset merge complete.Samarth is still gay.")
+else:
+    print(f"Found {len(files)} dataset files")
+    all_rows = load_all_rows(files)
+    print(f" Total rows loaded: {len(all_rows)}")
+    write_shuffled(all_rows, OUTPUT_FILE)
+    print(" Dataset merge complete.")
 
