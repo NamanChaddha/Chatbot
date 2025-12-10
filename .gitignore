@@ -214,3 +214,7 @@ Datasets/Evol_Code.jsonl
 Datasets/Math_PoT.jsonl
 Datasets/Math_CoT.jsonl
 Datasets/Python_Syntax.jsonl
+Datasets/CoT.jsonl
+Datasets/PoT.jsonl
+Datasets/Python_Code.jsonl
+Datasets/Math_WordProblems.jsonl
