@@ -1,3 +1,7 @@
 zstandard
 langdetect
 datasets
+unsloth
+torch
+trl
+transformers
